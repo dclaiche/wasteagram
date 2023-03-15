@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wasteagram/screens/addEntry.dart';
 import 'package:wasteagram/screens/listEntries.dart';
 import 'package:wasteagram/screens/viewEntry.dart';
+import 'styles/styles.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -17,7 +18,8 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Wasteagram',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepPurple,
+        fontFamily: Styles.fontDefault,
       ),
       routes: routes
     );

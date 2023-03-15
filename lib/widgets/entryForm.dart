@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../models/retrieveLocation.dart';
 import 'package:wasteagram/models/wasteEntry.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:intl/intl.dart';
+import 'package:location/location.dart';
+import 'components/itemsFormField.dart';
+import 'components/uploadFormField.dart';
 
 class EntryForm extends StatefulWidget {
   final File recievedImage;
@@ -14,6 +20,28 @@ class EntryForm extends StatefulWidget {
 class _EntryFormState extends State<EntryForm> {
 
   WasteEntry entry = WasteEntry();
+  Future<LocationData>? locationData;
+  Future<String>? imageURL;
+  DateTime? now;
+
+  Future<String> getImageURL(DateTime now) async {
+    final storageReference = FirebaseStorage.instance.ref().child('images/${DateFormat("EEEE, MMMM d, yyyy").format(now)}');
+    final uploadTask = await storageReference.putFile(widget.recievedImage);
+    final url = await storageReference.getDownloadURL();
+    return url;
+  }
+
+  // void getLocation() async {
+  //   locationData = await retrieveLocation();
+  // }
+
+  @override
+  void initState() {
+    super.initState();
+    now = DateTime.now();
+    locationData = retrieveLocation();
+    imageURL = getImageURL(now!);
+  }
 
   final formKey = GlobalKey<FormState>();
   @override
@@ -29,46 +57,8 @@ class _EntryFormState extends State<EntryForm> {
                 const Flexible(child: FractionallySizedBox(
                   heightFactor: 0.5,
                 )),
-              Expanded(
-                flex: 1,
-                child: TextFormField(
-                  autofocus: true,
-                  decoration: const InputDecoration(
-                    labelText: "Number of Items",
-                    hintText: "Enter number of items",
-                    border: OutlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a number';
-                    }
-                    return null;
-                  },
-                  onSaved: (newValue) => (entry.quantity = int.parse(newValue!)),
-                )),
-              Expanded(
-                flex: 1,
-                child: GestureDetector(
-                  onTap: () {
-                    if (formKey.currentState!.validate()) {
-                      formKey.currentState!.save();
-                      Navigator.of(context).pop();
-                    }
-                  },
-                  child: Container(
-                    color: Colors.blue,
-                    child: const ButtonBar(
-                        alignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            color: Colors.white,
-                            size: 50,
-                            Icons.cloud_upload),
-                        ],
-                      ),
-                  ),
-                )),
+              itemsFormField(entry: entry),
+              UploadFormField(formKey: formKey, entry: entry, imageURL: imageURL, locationData: locationData, now: now),
             ]),
         );
   }

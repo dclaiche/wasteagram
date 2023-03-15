@@ -1,7 +1,7 @@
 // When an entry is tapped on listEntries screen, navigates to viewEntry screen for that specific entry
-
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../widgets/viewSingleEntry.dart';
 
 class ViewEntry extends StatelessWidget {
   const ViewEntry({super.key});
@@ -10,6 +10,15 @@ class ViewEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final QueryDocumentSnapshot<Map<String, dynamic>> post = ModalRoute.of(context)?.settings.arguments as QueryDocumentSnapshot<Map<String, dynamic>>;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Wasteagram'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: ViewSingleEntry(post: post),
+      ));
   }
 }

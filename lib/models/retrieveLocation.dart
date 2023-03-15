@@ -1,7 +1,7 @@
 import 'package:location/location.dart';
 import 'package:flutter/services.dart';
 
-void retrieveLocation() async {
+Future<LocationData> retrieveLocation() async {
   var locationData;
   var locationService = Location();
     try {
@@ -10,7 +10,6 @@ void retrieveLocation() async {
         _serviceEnabled = await locationService.requestService();
         if (!_serviceEnabled) {
           print('Failed to enable service. Returning.');
-          return;
         }
       }
 

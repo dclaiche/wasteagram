@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:wasteagram/screens/addEntry.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import '../widgets/displayData.dart';
 
 class ListEntries extends StatefulWidget {
   const ListEntries({super.key});
@@ -22,7 +23,7 @@ class _ListEntriesState extends State<ListEntries> {
   void getImage() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile == null) return;
-    _image = File(pickedFile!.path);
+    _image = File(pickedFile.path);
     setState(() {
       Navigator.of(context).pushNamed(AddEntry.routeName, arguments: _image);
     });
@@ -35,14 +36,12 @@ class _ListEntriesState extends State<ListEntries> {
         title: const Text('Wasteagram'),
         centerTitle: true,
       ),
-      body: const Center(
-        child: CircularProgressIndicator(),
-      ),
+      body: const DisplayData(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           getImage();
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.camera_alt),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
