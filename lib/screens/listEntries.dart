@@ -33,15 +33,23 @@ class _ListEntriesState extends State<ListEntries> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Wasteagram'),
+        title: Semantics(
+          label: "Wasteagram",
+          textField: true,
+          child: const Text('Wasteagram')),
         centerTitle: true,
       ),
       body: const DisplayData(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          getImage();
-        },
-        child: const Icon(Icons.camera_alt),
+      floatingActionButton: Semantics(
+        button: true,
+        enabled: true,
+        onTapHint: 'Add new entry',
+        child: FloatingActionButton(
+          onPressed: () {
+            getImage();
+          },
+          child: const Icon(Icons.camera_alt),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

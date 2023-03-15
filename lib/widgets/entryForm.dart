@@ -51,14 +51,25 @@ class _EntryFormState extends State<EntryForm> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Expanded(
-                flex: 5,
-                child: Image.file(widget.recievedImage)),
+              Semantics(
+                image: true,
+                label: "Image of Waste",
+                child: Expanded(
+                  flex: 5,
+                  child: Image.file(widget.recievedImage)),
+              ),
                 const Flexible(child: FractionallySizedBox(
                   heightFactor: 0.5,
                 )),
-              itemsFormField(entry: entry),
-              UploadFormField(formKey: formKey, entry: entry, imageURL: imageURL, locationData: locationData, now: now),
+              Semantics(
+                textField: true,
+                label: "Number of Items Field",
+                child: itemsFormField(entry: entry)),
+              Semantics(
+                button: true,
+                onTapHint: "Upload to Firebase",
+                label: "Upload Button",
+                child: UploadFormField(formKey: formKey, entry: entry, imageURL: imageURL, locationData: locationData, now: now)),
             ]),
         );
   }

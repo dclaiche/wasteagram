@@ -23,16 +23,20 @@ class _DisplayDataState extends State<DisplayData> {
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
               var post = snapshot.data!.docs[index];
-              return Card(
-                child: InkWell(
-                  splashColor: Colors.blue.withAlpha(30),
-                  onTap: () {
-                      // DISPLAY SINGLE ENTRY HERE
-                      Navigator.of(context).pushNamed(ViewEntry.routeName, arguments: post);
-                  },
-                  child: ListTile(
-                      title: MediumText(text: post['date']),
-                      trailing: HeaderText(text: post['quantity'].toString())),
+              return Semantics(
+                onTapHint: "View this specific entry",
+                label: "Entry in list of food waste entries",
+                child: Card(
+                  child: InkWell(
+                    splashColor: Colors.blue.withAlpha(30),
+                    onTap: () {
+                        // DISPLAY SINGLE ENTRY HERE
+                        Navigator.of(context).pushNamed(ViewEntry.routeName, arguments: post);
+                    },
+                    child: ListTile(
+                        title: MediumText(text: post['date']),
+                        trailing: HeaderText(text: post['quantity'].toString())),
+                  ),
                 ),
               );
             });

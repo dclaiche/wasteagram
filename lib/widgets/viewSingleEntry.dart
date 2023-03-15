@@ -17,23 +17,39 @@ class ViewSingleEntry extends StatelessWidget {
                   child: FractionallySizedBox(
                   heightFactor: .3,
                 )),
-            Expanded(
-                  flex: 1,
-                  child: LargeText(text: post['date'])),
-            Expanded(
-              flex: 5,
-              child: Image.network(post['imageURL'])),
+            Semantics(
+              textField: true,
+              label: "Date of upload of waste",
+              child: Expanded(
+                    flex: 1,
+                    child: LargeText(text: post['date'])),
+            ),
+            Semantics(
+              label: "Image food of waste",
+              image: true,
+              child: Expanded(
+                flex: 5,
+                child: Image.network(post['imageURL'])),
+            ),
               const Flexible(
                   flex: 1,
                   child: FractionallySizedBox(
                   heightFactor: .3,
                 )),
-            Expanded(
-              flex: 1,
-              child: HeaderText(text: "Items: ${post['quantity']}")),
-            Expanded(
-              flex: 1,
-              child: SmallText(text: " LOCATION: Latitude: ${post['latitude']} Longitude: ${post['longitude']}")),
+            Semantics(
+              textField: true,
+              label: "Number of items wasted",
+              child: Expanded(
+                flex: 1,
+                child: HeaderText(text: "Items: ${post['quantity']}")),
+            ),
+            Semantics(
+              textField: true,
+              label: "Location of waste",
+              child: Expanded(
+                flex: 1,
+                child: SmallText(text: " LOCATION: Latitude: ${post['latitude']} Longitude: ${post['longitude']}")),
+            ),
           ],
         );
   }
